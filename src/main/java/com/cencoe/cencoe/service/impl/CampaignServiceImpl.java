@@ -124,8 +124,8 @@ public class CampaignServiceImpl implements ICampaignService {
             campaignExisting.setCampaignStartDate(campaignUpdate.getCampaignStartDate());
             campaignExisting.setCampaignEndDate(campaignUpdate.getCampaignEndDate());
             campaignExisting.setCampaignObservations(campaignUpdate.getCampaignObservations());
-            campaignExisting.setCampaignTeam(campaignUpdate.getCampaignTeam());
-            campaignExisting.setCampaignProvider(campaignUpdate.getCampaignProvider());
+            /*campaignExisting.setCampaignTeam(campaignUpdate.getCampaignTeam());
+            campaignExisting.setCampaignProvider(campaignUpdate.getCampaignProvider());*/
             campaignExisting.setCampaignState(campaignUpdate.getCampaignState());
 
             Campaign campaignUpdated = campaignRepository.save(campaignExisting);

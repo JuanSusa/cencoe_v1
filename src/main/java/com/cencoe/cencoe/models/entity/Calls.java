@@ -2,6 +2,7 @@ package com.cencoe.cencoe.models.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.swing.text.StyledEditorKit;
 import java.io.Serializable;

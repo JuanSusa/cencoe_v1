@@ -34,8 +34,8 @@ public class Provider implements Serializable {
     private Boolean providerState;
 
     //relacion de un proveedor a muchas campañas
-    @OneToMany(targetEntity = Campaign.class, fetch = FetchType.LAZY, mappedBy = "campaignProvider")
+    /*@OneToMany(targetEntity = Campaign.class, fetch = FetchType.LAZY, mappedBy = "campaignProvider")
     @JsonBackReference
     //@JsonIgnoreProperties({"campaignProvider", "hibernateLazyInitializer", "handler"})
-    private List<Campaign> campaigns;
+    private List<Campaign> campaigns;*/
 }

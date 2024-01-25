@@ -43,7 +43,7 @@ public class Campaign implements Serializable {
     private Boolean campaignState;
 
     //Relacion de muchas campañas a un equipo
-    @ManyToOne(targetEntity = Team.class, fetch = FetchType.LAZY)
+    /*@ManyToOne(targetEntity = Team.class, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "campaign_team")
     private Team campaignTeam;
@@ -52,5 +52,5 @@ public class Campaign implements Serializable {
     @ManyToOne(targetEntity = Provider.class, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "campaign_provider")
-    private Provider campaignProvider;
+    private Provider campaignProvider;*/
 }

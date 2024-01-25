@@ -55,19 +55,19 @@ public class User implements Serializable {
 
 
     //Relacion de muchos usuarios a muchos equipos
-    @ManyToMany
-    @JoinTable(name = "user_team",
-            joinColumns = @JoinColumn(referencedColumnName = "user_id"),
-            inverseJoinColumns = @JoinColumn(referencedColumnName = "team_id"))
-    private List<Team> teams;
-
-
-    //Relacion de muchos usuarios a muchos equipos
-    @ManyToMany
-    @JoinTable(name = "user_role",
-            joinColumns = @JoinColumn(referencedColumnName = "user_id"),
-            inverseJoinColumns = @JoinColumn(referencedColumnName = "role_id"))
-    private List<Role> roles;
+//    @ManyToMany
+//    @JoinTable(name = "user_team",
+//            joinColumns = @JoinColumn(referencedColumnName = "user_id"),
+//            inverseJoinColumns = @JoinColumn(referencedColumnName = "team_id"))
+//    private List<Team> teams;
+//
+//
+//    //Relacion de muchos usuarios a muchos equipos
+//    @ManyToMany
+//    @JoinTable(name = "user_role",
+//            joinColumns = @JoinColumn(referencedColumnName = "user_id"),
+//            inverseJoinColumns = @JoinColumn(referencedColumnName = "role_id"))
+//    private List<Role> roles;
 
     /*
     //Relacion de muchos usuarios a muchos equipos

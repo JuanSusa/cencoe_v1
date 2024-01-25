@@ -129,8 +129,8 @@ public class UserServiceImpl implements IUserService {
             userExisting.setUserPassword(userUpdate.getUserPassword());
             userExisting.setUserState(userUpdate.getUserState());
             userExisting.setUserDocType(userUpdate.getUserDocType());
-            userExisting.setRoles(userUpdate.getRoles());
-            userExisting.setTeams(userUpdate.getTeams());
+//            userExisting.setRoles(userUpdate.getRoles());
+//            userExisting.setTeams(userUpdate.getTeams());
 
 
             User userUpdated = userRepository.save(userExisting);

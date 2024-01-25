@@ -27,7 +27,7 @@ public class DocumentType implements Serializable {
     private String docTypeName;
 
     //relacion de un tipo de documento a muchos usuarios
-    @OneToMany(targetEntity = User.class, fetch = FetchType.LAZY, mappedBy = "userDocType")
+    @OneToMany(targetEntity = User  .class, fetch = FetchType.LAZY, mappedBy = "userDocType")
     @JsonBackReference
     private List<User> users;
 
