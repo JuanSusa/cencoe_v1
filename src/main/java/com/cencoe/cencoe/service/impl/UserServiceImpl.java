@@ -7,32 +7,40 @@ import com.cencoe.cencoe.util.MensajeResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.*;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
+
 @Slf4j
 @Service
 public class UserServiceImpl implements IUserService {
 
     private final IUserRepository userRepository;
+
     @Autowired
-    public UserServiceImpl(IUserRepository userRepository){
+    public UserServiceImpl(IUserRepository userRepository) {
 
         this.userRepository = userRepository;
     }
+
     @Override
     @Transactional(readOnly = true)
-    public MensajeResponse listUsers() {
+    public MensajeResponse listUsers(int page, int size) {
         List<User> getListUser;
 
         try {
-            getListUser = userRepository.findAll();
+            Pageable pageable = PageRequest.of(page, size);
+            Page<User> userPage = userRepository.findAll(pageable);
+
+            getListUser = userPage.getContent();
         } catch (DataAccessException dtEx) {
-            log.info("error");
-            log.error("error", dtEx);
+            log.error("Error al obtener usuarios paginados", dtEx);
             return MensajeResponse.buildMensajeGeneral(
                     HttpStatus.BAD_REQUEST,
                     dtEx.getMostSpecificCause().getMessage(),
@@ -85,6 +93,26 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public MensajeResponse saveUser(User user) {
+        Optional<User> existingUser = userRepository.findByUserNumDoc(user.getUserNumDoc());
+        Optional<User> existingUserByEmail = userRepository.findByUserEmail(user.getUserEmail());
+
+        if (existingUser.isPresent()) {
+            // El número de documento ya existe, devolver mensaje de error
+            return MensajeResponse.buildMensajeGeneral(
+                    HttpStatus.BAD_REQUEST,
+                    "El número de documento ya está registrado en la base de datos",
+                    false,
+                    null);
+        }
+
+        if (existingUserByEmail.isPresent()){
+            return MensajeResponse.buildMensajeGeneral(
+                    HttpStatus.BAD_REQUEST,
+                    "Correo electronico ya existe",
+                    false,
+                    null);
+        }
+
         User userToSave;
         try {
             userToSave = userRepository.save(user);
@@ -101,6 +129,7 @@ public class UserServiceImpl implements IUserService {
                 true,
                 userToSave);
     }
+
 
     @Override
     @Transactional

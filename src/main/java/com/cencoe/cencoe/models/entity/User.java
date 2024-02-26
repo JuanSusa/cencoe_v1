@@ -23,7 +23,7 @@ public class User implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "user_numdoc")
+    @Column(name = "user_numdoc", unique = true)
     private String userNumDoc;
 
     @Column(name = "user_name")
@@ -38,7 +38,7 @@ public class User implements Serializable {
     @Column(name = "user_phone")
     private String userPhone;
 
-    @Column(name = "user_email")
+    @Column(name = "user_email", unique = true)
     private String userEmail;
 
     @Column(name = "user_password")

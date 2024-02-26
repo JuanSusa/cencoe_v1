@@ -4,7 +4,7 @@ import com.cencoe.cencoe.models.entity.User;
 import com.cencoe.cencoe.util.MensajeResponse;
 
 public interface IUserService {
-    MensajeResponse listUsers();
+    MensajeResponse listUsers(int page, int size);
 
     MensajeResponse findUser(Long userId);
 

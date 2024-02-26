@@ -2,6 +2,7 @@ package com.cencoe.cencoe.util;
 
 import lombok.Builder;
 import lombok.Data;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 
 import java.io.Serializable;
