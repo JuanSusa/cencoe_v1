@@ -53,15 +53,13 @@ public class User implements Serializable {
     @JoinColumn(name = "user_doctype")
     private DocumentType userDocType;
 
-
     //Relacion de muchos usuarios a muchos equipos
-//    @ManyToMany
-//    @JoinTable(name = "user_team",
-//            joinColumns = @JoinColumn(referencedColumnName = "user_id"),
-//            inverseJoinColumns = @JoinColumn(referencedColumnName = "team_id"))
-//    private List<Team> teams;
-//
-//
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_team",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "team_id"))
+    private List<Team> teams;
+
 //    //Relacion de muchos usuarios a muchos equipos
 //    @ManyToMany
 //    @JoinTable(name = "user_role",
@@ -69,11 +67,9 @@ public class User implements Serializable {
 //            inverseJoinColumns = @JoinColumn(referencedColumnName = "role_id"))
 //    private List<Role> roles;
 
-    /*
-    //Relacion de muchos usuarios a muchos equipos
-    @ManyToMany(targetEntity = Team.class, fetch = FetchType.LAZY)
-    @JoinTable(name = "user_team")
-    private List<Calls> callsList;*/
-
+//    //Relacion de muchos usuarios a muchos equipos
+//    @ManyToMany(targetEntity = Team.class, fetch = FetchType.LAZY)
+//    @JoinTable(name = "user_team")
+//    private List<Calls> callsList;
 
 }

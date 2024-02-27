@@ -33,9 +33,12 @@ public class Team implements Serializable {
     @Column(name = "team_state")
     private Boolean teamState;
 
-    //relacion de un equipo a muchas campañas
-    /*@OneToMany(targetEntity = Campaign.class, fetch = FetchType.LAZY, mappedBy = "campaignTeam")
-    @JsonBackReference
-    //@JsonIgnoreProperties({"campaignTeam", "hibernateLazyInitializer", "handler"})
-    private List<Campaign> campaigns;*/
+    @ManyToMany(mappedBy = "teams")
+    private List<User> users;
+
+//    //relacion de un equipo a muchas campañas
+//    @OneToMany(targetEntity = Campaign.class, fetch = FetchType.LAZY, mappedBy = "campaignTeam")
+//    @JsonBackReference
+//    @JsonIgnoreProperties({"campaignTeam", "hibernateLazyInitializer", "handler"})
+//    private List<Campaign> campaigns;
 }
