@@ -30,8 +30,24 @@ public class Provider implements Serializable {
     @Column(name = "provider_address")
     private String providerAddress;
 
-    @Column(name = "provider_state")
-    private Boolean providerState;
+  //  @Column(name = "provider_state")
+  //private Boolean providerState;
+
+    @Column(name = "provider_email")
+    private String providerEmail;
+
+    @Column(name = "provider_details")
+    private String providerDetails;
+
+    @Column(name = "provider_contact")
+    private String providerContact;
+
+
+    @ManyToOne(targetEntity = DocumentType.class, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JoinColumn(name = "provider_doctype")
+    private DocumentType providerDocType;
+
 
     //relacion de un proveedor a muchas campañas
     /*@OneToMany(targetEntity = Campaign.class, fetch = FetchType.LAZY, mappedBy = "campaignProvider")

@@ -31,4 +31,5 @@ public class DocumentType implements Serializable {
     @JsonBackReference
     private List<User> users;
 
+
 }

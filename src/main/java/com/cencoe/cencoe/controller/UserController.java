@@ -36,7 +36,7 @@ public class UserController {
     }
 
     @PostMapping("/usuario")
-    public ResponseEntity<Object> saveCampaign(@RequestBody User user) {
+    public ResponseEntity<Object> saveUser(@RequestBody User user) {
 
         MensajeResponse responseSaveUser = userService.saveUser(user);
         return new ResponseEntity<>(responseSaveUser, HttpStatus.OK);

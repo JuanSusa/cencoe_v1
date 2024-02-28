@@ -5,8 +5,11 @@ import com.cencoe.cencoe.models.repository.IProviderRepository;
 import com.cencoe.cencoe.service.IProviderService;
 import com.cencoe.cencoe.util.MensajeResponse;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -21,7 +24,11 @@ public class ProviderServiceImpl implements IProviderService {
 
         this.providerRepository = providerRepository;
     }
-
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Provider> listProvidersPageable(Pageable pageable) {
+        return providerRepository.findAll(pageable);
+    }
     @Override
     @Transactional(readOnly = true)
     public MensajeResponse listProvider() {
@@ -78,7 +85,6 @@ public class ProviderServiceImpl implements IProviderService {
                     null);
         }
     }
-
     @Override
     @Transactional
     public MensajeResponse saveProvider(Provider provider) {
@@ -119,7 +125,8 @@ public class ProviderServiceImpl implements IProviderService {
             providerExisting.setProviderId(providerUpdate.getProviderId());
             providerExisting.setProviderName(providerUpdate.getProviderName());
             providerExisting.setProviderAddress(providerUpdate.getProviderAddress());
-            providerExisting.setProviderState(providerUpdate.getProviderState());
+            providerExisting.setProviderDocType(providerUpdate.getProviderDocType());
+           // providerExisting.setProviderState(providerUpdate.getProviderState());
 
             Provider providerUpdated = providerRepository.save(providerExisting);
             return MensajeResponse.buildMensajeGeneral(
@@ -164,4 +171,6 @@ public class ProviderServiceImpl implements IProviderService {
                 true,
                 null);
     }
+
+
 }
