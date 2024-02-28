@@ -23,7 +23,7 @@ public class UserController {
 
     @GetMapping("/usuarios")
     public ResponseEntity<Object>  listUsers(@RequestParam(defaultValue = "0") int page,
-                                            @RequestParam(defaultValue = "2") int size) {
+                                            @RequestParam(defaultValue = "5") int size) {
 
         MensajeResponse responseListUsers = userService.listUsers(page, size);
         return new ResponseEntity<>(responseListUsers, HttpStatus.OK);

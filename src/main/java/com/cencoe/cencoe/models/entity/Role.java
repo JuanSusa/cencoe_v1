@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Getter
 @Setter
@@ -27,6 +28,9 @@ public class Role implements Serializable {
 
     @Column(name = "role_state")
     private Boolean roleState;
+
+    @ManyToMany(mappedBy = "roles")
+    private List<User> users;
 
 
 }

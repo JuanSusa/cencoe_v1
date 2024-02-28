@@ -32,13 +32,11 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional(readOnly = true)
     public MensajeResponse listUsers(int page, int size) {
-        List<User> getListUser;
+        Page<User> userPage = null;
 
         try {
             Pageable pageable = PageRequest.of(page, size);
-            Page<User> userPage = userRepository.findAll(pageable);
-
-            getListUser = userPage.getContent();
+            userPage = userRepository.findAll(pageable);
         } catch (DataAccessException dtEx) {
             log.error("Error al obtener usuarios paginados", dtEx);
             return MensajeResponse.buildMensajeGeneral(
@@ -47,7 +45,7 @@ public class UserServiceImpl implements IUserService {
                     false,
                     null);
         }
-        if (getListUser.isEmpty()) {
+        if (userPage.isEmpty()) {
             return MensajeResponse.buildMensajeGeneral(
                     HttpStatus.NOT_FOUND,
                     "No Hay registros en la base de datos",
@@ -58,7 +56,7 @@ public class UserServiceImpl implements IUserService {
                     HttpStatus.OK,
                     "Consulta exitosa",
                     true,
-                    getListUser);
+                    userPage);
         }
     }
 
@@ -105,7 +103,7 @@ public class UserServiceImpl implements IUserService {
                     null);
         }
 
-        if (existingUserByEmail.isPresent()){
+        if (existingUserByEmail.isPresent()) {
             return MensajeResponse.buildMensajeGeneral(
                     HttpStatus.BAD_REQUEST,
                     "Correo electronico ya existe",
