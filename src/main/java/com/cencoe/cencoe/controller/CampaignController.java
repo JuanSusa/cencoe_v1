@@ -21,9 +21,10 @@ public class CampaignController {
     }
 
     @GetMapping("/campañas")
-    public ResponseEntity<Object> listCampaigns() {
+    public ResponseEntity<Object> listCampaigns(@RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "5") int size) {
 
-        MensajeResponse responseListCampaigns = campaignService.listCampaigns();
+        MensajeResponse responseListCampaigns = campaignService.listCampaigns(page, size);
         return new ResponseEntity<>(responseListCampaigns, HttpStatus.OK);
     }
 

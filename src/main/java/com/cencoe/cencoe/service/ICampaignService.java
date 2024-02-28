@@ -5,7 +5,7 @@ import com.cencoe.cencoe.util.MensajeResponse;
 
 public interface ICampaignService {
 
-    MensajeResponse listCampaigns();
+    MensajeResponse listCampaigns(int page, int size);
 
     MensajeResponse findCampaign(Long campaignId);
 
