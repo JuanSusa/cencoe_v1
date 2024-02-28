@@ -1,6 +1,7 @@
 package com.cencoe.cencoe.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,9 +37,10 @@ public class Team implements Serializable {
     @ManyToMany(mappedBy = "teams")
     private List<User> users;
 
-//    //relacion de un equipo a muchas campañas
-//    @OneToMany(targetEntity = Campaign.class, fetch = FetchType.LAZY, mappedBy = "campaignTeam")
-//    @JsonBackReference
-//    @JsonIgnoreProperties({"campaignTeam", "hibernateLazyInitializer", "handler"})
-//    private List<Campaign> campaigns;
+    //relacion de un equipo a muchas campañas
+    @OneToMany(targetEntity = Campaign.class, fetch = FetchType.LAZY, mappedBy = "team")
+//    @JsonIgnore
+//    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JsonBackReference
+    private List<Campaign> campaigns;
 }
