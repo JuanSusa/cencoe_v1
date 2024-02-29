@@ -5,7 +5,7 @@ import com.cencoe.cencoe.util.MensajeResponse;
 
 public interface ICustomerService {
 
-    MensajeResponse listCustomers();
+    MensajeResponse listCustomers(int page, int size);
 
     MensajeResponse findCustomers(Long customerId);
 

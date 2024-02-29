@@ -19,9 +19,10 @@ public class ProviderController {
     }
 
     @GetMapping("/proveedores")
-    public ResponseEntity<Object> listProviders() {
+    public ResponseEntity<Object> listProviders(@RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "5") int size) {
 
-        MensajeResponse responseListProviders = providerService.listProvider();
+        MensajeResponse responseListProviders = providerService.listProvider(page, size);
         return new ResponseEntity<>(responseListProviders, HttpStatus.OK);
     }
 

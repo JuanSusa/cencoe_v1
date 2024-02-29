@@ -5,6 +5,9 @@ import com.cencoe.cencoe.models.repository.ICustomerRepository;
 import com.cencoe.cencoe.service.ICustomerService;
 import com.cencoe.cencoe.util.MensajeResponse;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +27,12 @@ public class CustomerServiceImpl implements ICustomerService {
 
     @Override
     @Transactional(readOnly = true)
-    public MensajeResponse listCustomers() {
-        List<Customer> getListCustomers;
+    public MensajeResponse listCustomers(int page, int size) {
+        Page<Customer> getListCustomers;
 
         try {
-            getListCustomers = customerRepository.findAll();
+            Pageable pageable = PageRequest.of(page, size);
+            getListCustomers = customerRepository.findAll(pageable);
         } catch (DataAccessException dtEx) {
             return MensajeResponse.buildMensajeGeneral(
                     HttpStatus.BAD_REQUEST,

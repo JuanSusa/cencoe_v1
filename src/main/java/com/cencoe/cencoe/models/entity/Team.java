@@ -5,8 +5,11 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.List;
 
 @Getter
@@ -15,6 +18,7 @@ import java.util.List;
 @NoArgsConstructor
 @Builder
 @Entity
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "team")
 public class Team implements Serializable {
 
@@ -34,6 +38,11 @@ public class Team implements Serializable {
     @Column(name = "team_state")
     private Boolean teamState;
 
+    @CreatedDate
+    @Column(name = "creation_date", updatable = false)
+    private LocalDate creationDate;
+
+    //Relacion de muchos equipos a muchos usuarios
     @ManyToMany(mappedBy = "teams")
     private List<User> users;
 
@@ -43,4 +52,20 @@ public class Team implements Serializable {
 //    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JsonBackReference
     private List<Campaign> campaigns;
+
+    @PrePersist
+    protected void onCreate() {
+        this.creationDate = LocalDate.now();
+        System.out.println("Método onCreate() ejecutado. Fecha de creación: " + this.creationDate);
+    }
+
+//    public boolean isRecent() {
+//        LocalDate currentDate = LocalDate.now();
+//        return creationDate.isAfter(currentDate.minusDays(30)); // Por ejemplo, considerando que "reciente" significa creado en los últimos 30 días.
+//    }
 }
+
+
+
+
+

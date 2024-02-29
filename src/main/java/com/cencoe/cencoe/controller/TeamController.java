@@ -21,13 +21,14 @@ public class TeamController {
     }
 
     @GetMapping("/grupos")
-    public ResponseEntity<Object> listTeam() {
+    public ResponseEntity<Object> listTeam(@RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(defaultValue = "5") int size) {
 
-        MensajeResponse responseListTeam = teamService.listTeam();
+        MensajeResponse responseListTeam = teamService.listTeam(page, size);
         return new ResponseEntity<>(responseListTeam, HttpStatus.OK);
     }
 
-    @GetMapping("grupos/{id}")
+    @GetMapping("grupo/{id}")
     public ResponseEntity<Object> findTeamById(@PathVariable Long id) {
 
         MensajeResponse responseFindTeam = teamService.findTeam(id);
