@@ -86,6 +86,18 @@ public class CustomerServiceImpl implements ICustomerService {
     @Override
     @Transactional
     public MensajeResponse saveCustomer(Customer customer) {
+
+        Optional<Customer> existingCustomer = customerRepository.findByCustomerNumDoc(customer.getCustomerNumDoc());
+
+        if(existingCustomer.isPresent()){
+            // El número de documento ya existe, devolver mensaje de error
+            return MensajeResponse.buildMensajeGeneral(
+                    HttpStatus.BAD_REQUEST,
+                    "El número de documento ya está registrado en la base de datos",
+                    false,
+                    null);
+        }
+
         Customer customerToSave;
         try {
             customerToSave = customerRepository.save(customer);
