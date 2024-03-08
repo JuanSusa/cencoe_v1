@@ -5,7 +5,7 @@ import com.cencoe.cencoe.util.MensajeResponse;
 
 public interface ITeamService {
 
-    MensajeResponse listTeam();
+    MensajeResponse listTeam(int page, int size);
 
     MensajeResponse findTeam(Long teamId);
 

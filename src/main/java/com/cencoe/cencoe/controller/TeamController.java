@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api/v2/cencoe")
 @CrossOrigin(origins="http://localhost:4200")
@@ -22,13 +23,14 @@ public class TeamController {
     }
 
     @GetMapping("/grupos")
-    public ResponseEntity<Object> listTeam() {
+    public ResponseEntity<Object> listTeam(@RequestParam(defaultValue = "0") int page,
+                                           @RequestParam(defaultValue = "5") int size) {
 
-        MensajeResponse responseListTeam = teamService.listTeam();
+        MensajeResponse responseListTeam = teamService.listTeam(page, size);
         return new ResponseEntity<>(responseListTeam, HttpStatus.OK);
     }
 
-    @GetMapping("grupos/{id}")
+    @GetMapping("grupo/{id}")
     public ResponseEntity<Object> findTeamById(@PathVariable Long id) {
 
         MensajeResponse responseFindTeam = teamService.findTeam(id);

@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface IProviderService {
 
-    MensajeResponse listProvider();
+    MensajeResponse listProvider(int page, int size);
 
     MensajeResponse findProvider(Long providerId);
 

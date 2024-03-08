@@ -9,10 +9,17 @@ package com.cencoe.cencoe.controller;
     import org.springframework.http.ResponseEntity;
     import org.springframework.web.bind.annotation.*;
 
+<<<<<<< HEAD
     @CrossOrigin(origins = "http://localhost:4200")
     @RestController
     @RequestMapping("/api/v2/cencoe")
     public class ProviderController {
+=======
+@CrossOrigin(origins = {"http://localhost:4200"})
+@RestController
+@RequestMapping("/api/v2/cencoe")
+public class ProviderController {
+>>>>>>> develop
 
         private final IProviderService providerService;
 
@@ -31,6 +38,7 @@ package com.cencoe.cencoe.controller;
             }
         }
 
+<<<<<<< HEAD
        //@GetMapping("/proveedores")
        // public ResponseEntity<Object> listProviders() {
        //   MensajeResponse responseListProviders = providerService.listProvider();
@@ -39,6 +47,15 @@ package com.cencoe.cencoe.controller;
 
         @GetMapping("proveedor/{id}")
         public ResponseEntity<Object> findProviderById(@PathVariable Long id) {
+=======
+    @GetMapping("/proveedores")
+    public ResponseEntity<Object> listProviders(@RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "5") int size) {
+
+        MensajeResponse responseListProviders = providerService.listProvider(page, size);
+        return new ResponseEntity<>(responseListProviders, HttpStatus.OK);
+    }
+>>>>>>> develop
 
             MensajeResponse responseFindProvider = providerService.findProvider(id);
             return new ResponseEntity<>(responseFindProvider, HttpStatus.OK);

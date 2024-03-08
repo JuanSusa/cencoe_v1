@@ -7,39 +7,45 @@ import com.cencoe.cencoe.util.MensajeResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.*;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+
 import java.util.Optional;
+
 @Slf4j
 @Service
 public class UserServiceImpl implements IUserService {
 
     private final IUserRepository userRepository;
     @Autowired
-    public UserServiceImpl(IUserRepository userRepository){
-
+    public UserServiceImpl(IUserRepository userRepository) {
         this.userRepository = userRepository;
     }
+
+
     @Override
     @Transactional(readOnly = true)
-    public MensajeResponse listUsers() {
-        List<User> getListUser;
+    public MensajeResponse listUsers(int page, int size) {
+        Page<User> userPage = null;
 
         try {
-            getListUser = userRepository.findAll();
+            Pageable pageable = PageRequest.of(page, size);
+            userPage = userRepository.findAll(pageable);
         } catch (DataAccessException dtEx) {
-            log.info("error");
-            log.error("error", dtEx);
+            log.error("Error al obtener usuarios paginados", dtEx);
             return MensajeResponse.buildMensajeGeneral(
                     HttpStatus.BAD_REQUEST,
                     dtEx.getMostSpecificCause().getMessage(),
                     false,
                     null);
         }
-        if (getListUser.isEmpty()) {
+        if (userPage.isEmpty()) {
             return MensajeResponse.buildMensajeGeneral(
                     HttpStatus.NOT_FOUND,
                     "No Hay registros en la base de datos",
@@ -50,7 +56,7 @@ public class UserServiceImpl implements IUserService {
                     HttpStatus.OK,
                     "Consulta exitosa",
                     true,
-                    getListUser);
+                    userPage);
         }
     }
 
@@ -85,9 +91,31 @@ public class UserServiceImpl implements IUserService {
     @Override
     @Transactional
     public MensajeResponse saveUser(User user) {
+        Optional<User> existingUser = userRepository.findByUserNumDoc(user.getUserNumDoc());
+        Optional<User> existingUserByEmail = userRepository.findByUserEmail(user.getUserEmail());
+
+        if (existingUser.isPresent()) {
+            // El número de documento ya existe, devolver mensaje de error
+            return MensajeResponse.buildMensajeGeneral(
+                    HttpStatus.BAD_REQUEST,
+                    "El número de documento ya está registrado en la base de datos",
+                    false,
+                    null);
+        }
+
+        if (existingUserByEmail.isPresent()) {
+            return MensajeResponse.buildMensajeGeneral(
+                    HttpStatus.BAD_REQUEST,
+                    "Correo electronico ya existe",
+                    false,
+                    null);
+        }
+
         User userToSave;
         try {
             userToSave = userRepository.save(user);
+
+
         } catch (DataAccessException dtEx) {
             return MensajeResponse.buildMensajeGeneral(
                     HttpStatus.BAD_REQUEST,
@@ -101,6 +129,7 @@ public class UserServiceImpl implements IUserService {
                 true,
                 userToSave);
     }
+
 
     @Override
     @Transactional
@@ -176,4 +205,22 @@ public class UserServiceImpl implements IUserService {
                 null);
     }
 
+//    @Override
+//    public MensajeResponse authenticate() {
+//        try {
+//            Optional<User> userAuth = userRepository.findByUserNumDoc(userLoginRequest.getNumDoc());
+//            User user = userAuth.orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+//            if (passwordEncoder.matches(userLoginRequest.getPassword(), user.getUserPassword())) {
+//
+//                return MensajeResponse.buildMensajeGeneral(HttpStatus.OK, "Inicio de Sesión Exitoso", true, null);
+//            } else {
+//                return MensajeResponse.buildMensajeGeneral(HttpStatus.UNAUTHORIZED, "Usuario o contraseña incorrectos", false, null);
+//            }
+//        } catch (UsernameNotFoundException e) {
+//            return MensajeResponse.buildMensajeGeneral(HttpStatus.NOT_FOUND, "Usuario no encontrado", false, null);
+//        } catch (Exception e) {
+//            return MensajeResponse.buildMensajeGeneral(HttpStatus.INTERNAL_SERVER_ERROR, "Error al autenticar usuario", false, null);
+//        }
+//    }
+//
 }

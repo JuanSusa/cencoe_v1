@@ -6,6 +6,9 @@ import com.cencoe.cencoe.service.ITeamService;
 import com.cencoe.cencoe.util.MensajeResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,11 +29,12 @@ public class TeamServiceImpl implements ITeamService {
 
     @Override
     @Transactional(readOnly = true)
-    public MensajeResponse listTeam() {
-        List<Team> getListTeams;
+    public MensajeResponse listTeam(int page, int size) {
+        Page<Team> getListTeams;
 
         try {
-            getListTeams = teamRepository.findAll();
+            Pageable pageable = PageRequest.of(page, size);
+            getListTeams = teamRepository.findAll(pageable);
         } catch (DataAccessException dtEx) {
             return MensajeResponse.buildMensajeGeneral(
                     HttpStatus.BAD_REQUEST,

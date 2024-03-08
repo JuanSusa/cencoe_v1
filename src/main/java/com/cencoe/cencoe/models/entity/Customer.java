@@ -1,5 +1,6 @@
 package com.cencoe.cencoe.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -31,4 +32,13 @@ public class Customer implements Serializable {
 
     @Column(name = "customer_state")
     private Boolean customerState;
+
+    @Column(name = "customer_numdoc", unique = true)
+    private String customerNumDoc;
+
+    //Relacion de muchos clientes a un tipo de docuemento
+    @ManyToOne(targetEntity = DocumentType.class, fetch = FetchType.LAZY)
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    @JoinColumn(name = "customer_doctype")
+    private DocumentType customerDocType;
 }

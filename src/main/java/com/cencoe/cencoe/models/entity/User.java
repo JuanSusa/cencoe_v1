@@ -1,11 +1,14 @@
 package com.cencoe.cencoe.models.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -23,7 +26,7 @@ public class User implements Serializable {
     @Column(name = "user_id")
     private Long userId;
 
-    @Column(name = "user_numdoc")
+    @Column(name = "user_numdoc", unique = true)
     private String userNumDoc;
 
     @Column(name = "user_name")
@@ -38,7 +41,7 @@ public class User implements Serializable {
     @Column(name = "user_phone")
     private String userPhone;
 
-    @Column(name = "user_email")
+    @Column(name = "user_email", unique = true)
     private String userEmail;
 
     @Column(name = "user_password")
@@ -47,33 +50,34 @@ public class User implements Serializable {
     @Column(name = "user_state")
     private Boolean userState;
 
-    //Relacion de muchos usuarios a un tipo de docuemento
+    //Relacion de muchos usuarios a un tipo de documentos
     @ManyToOne(targetEntity = DocumentType.class, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "user_doctype")
     private DocumentType userDocType;
 
-
     //Relacion de muchos usuarios a muchos equipos
-//    @ManyToMany
-//    @JoinTable(name = "user_team",
-//            joinColumns = @JoinColumn(referencedColumnName = "user_id"),
-//            inverseJoinColumns = @JoinColumn(referencedColumnName = "team_id"))
-//    private List<Team> teams;
-//
-//
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_team",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "team_id"))
+//    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<Team> teams;
+
+    //Relacion de muchos usuarios a muchos roles
+    @ManyToMany(fetch = FetchType.EAGER)
+    @JoinTable(name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    @JsonIgnore
+    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
+    private List<Role> roles;
+
+
 //    //Relacion de muchos usuarios a muchos equipos
-//    @ManyToMany
-//    @JoinTable(name = "user_role",
-//            joinColumns = @JoinColumn(referencedColumnName = "user_id"),
-//            inverseJoinColumns = @JoinColumn(referencedColumnName = "role_id"))
-//    private List<Role> roles;
-
-    /*
-    //Relacion de muchos usuarios a muchos equipos
-    @ManyToMany(targetEntity = Team.class, fetch = FetchType.LAZY)
-    @JoinTable(name = "user_team")
-    private List<Calls> callsList;*/
-
+//    @ManyToMany(targetEntity = Team.class, fetch = FetchType.LAZY)
+//    @JoinTable(name = "user_team")
+//    private List<Calls> callsList;
 
 }

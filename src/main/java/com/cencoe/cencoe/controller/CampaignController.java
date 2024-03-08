@@ -8,7 +8,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+<<<<<<< HEAD
 @CrossOrigin(origins = "http://localhost:4200")
+=======
+@CrossOrigin(origins = {"http://localhost:4200"})
+>>>>>>> develop
 @RestController
 @RequestMapping("/api/v2/cencoe")
 public class CampaignController {
@@ -22,9 +26,10 @@ public class CampaignController {
     }
 
     @GetMapping("/campañas")
-    public ResponseEntity<Object> listCampaigns() {
+    public ResponseEntity<Object> listCampaigns(@RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "5") int size) {
 
-        MensajeResponse responseListCampaigns = campaignService.listCampaigns();
+        MensajeResponse responseListCampaigns = campaignService.listCampaigns(page, size);
         return new ResponseEntity<>(responseListCampaigns, HttpStatus.OK);
     }
 

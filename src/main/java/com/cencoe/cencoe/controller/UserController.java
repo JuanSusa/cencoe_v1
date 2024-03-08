@@ -15,6 +15,7 @@ public class UserController {
 
     private final IUserService userService;
 
+
     @Autowired
     public UserController(IUserService userService) {
 
@@ -22,9 +23,10 @@ public class UserController {
     }
 
     @GetMapping("/usuarios")
-    public ResponseEntity<Object> listUsers() {
+    public ResponseEntity<Object>  listUsers(@RequestParam(defaultValue = "0") int page,
+                                            @RequestParam(defaultValue = "5") int size) {
 
-        MensajeResponse responseListUsers = userService.listUsers();
+        MensajeResponse responseListUsers = userService.listUsers(page, size);
         return new ResponseEntity<>(responseListUsers, HttpStatus.OK);
     }
 
@@ -38,7 +40,7 @@ public class UserController {
     @PostMapping("/usuario")
     public ResponseEntity<Object> saveUser(@RequestBody User user) {
 
-        MensajeResponse responseSaveUser = userService.saveUser(user);
+        MensajeResponse responseSaveUser = userService .saveUser(user);
         return new ResponseEntity<>(responseSaveUser, HttpStatus.OK);
     }
 
