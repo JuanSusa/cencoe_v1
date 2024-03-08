@@ -1,6 +1,7 @@
 package com.cencoe.cencoe.models.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -27,8 +28,13 @@ public class DocumentType implements Serializable {
     private String docTypeName;
 
     //relacion de un tipo de documento a muchos usuarios
-    @OneToMany(targetEntity = User  .class, fetch = FetchType.LAZY, mappedBy = "userDocType")
+    @OneToMany(targetEntity = User.class, fetch = FetchType.LAZY, mappedBy = "userDocType")
     @JsonBackReference
     private List<User> users;
+
+    //relacion de un tipo de documento a muchos clientes
+    @OneToMany(targetEntity = Customer.class, fetch = FetchType.LAZY, mappedBy = "customerDocType")
+    @JsonIgnore
+    private List<Customer> customers;
 
 }

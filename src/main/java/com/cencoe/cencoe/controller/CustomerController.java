@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api/v2/cencoe")
 public class CustomerController {
@@ -20,9 +21,10 @@ public class CustomerController {
     }
 
     @GetMapping("/clientes")
-    public ResponseEntity<Object> listCustomers() {
+    public ResponseEntity<Object> listCustomers(@RequestParam (defaultValue = "0") int page,
+                                                @RequestParam (defaultValue = "5") int size) {
 
-        MensajeResponse responseListCustomers = customerService.listCustomers();
+        MensajeResponse responseListCustomers = customerService.listCustomers(page, size);
         return new ResponseEntity<>(responseListCustomers, HttpStatus.OK);
     }
 

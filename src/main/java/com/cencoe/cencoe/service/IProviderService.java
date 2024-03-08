@@ -5,7 +5,7 @@ import com.cencoe.cencoe.util.MensajeResponse;
 
 public interface IProviderService {
 
-    MensajeResponse listProvider();
+    MensajeResponse listProvider(int page, int size);
 
     MensajeResponse findProvider(Long providerId);
 

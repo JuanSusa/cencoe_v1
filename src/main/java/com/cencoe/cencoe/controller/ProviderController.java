@@ -7,6 +7,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api/v2/cencoe")
 public class ProviderController {
@@ -19,9 +20,10 @@ public class ProviderController {
     }
 
     @GetMapping("/proveedores")
-    public ResponseEntity<Object> listProviders() {
+    public ResponseEntity<Object> listProviders(@RequestParam(defaultValue = "0") int page,
+                                                @RequestParam(defaultValue = "5") int size) {
 
-        MensajeResponse responseListProviders = providerService.listProvider();
+        MensajeResponse responseListProviders = providerService.listProvider(page, size);
         return new ResponseEntity<>(responseListProviders, HttpStatus.OK);
     }
 
