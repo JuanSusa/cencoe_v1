@@ -4,7 +4,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -32,6 +34,8 @@ public class Role implements Serializable {
     @ManyToMany(mappedBy = "roles")
     private List<User> users;
 
+    //@OneToMany(cascade = CascadeType.ALL, fetch= FetchType.LAZY, mappedBy = "role")
+    //private Set<UserRole> usuarioRoles = new HashSet<>();
 
 }
 

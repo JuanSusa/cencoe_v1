@@ -6,7 +6,9 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Getter
 @Setter
@@ -48,7 +50,7 @@ public class User implements Serializable {
     @Column(name = "user_state")
     private Boolean userState;
 
-    //Relacion de muchos usuarios a un tipo de docuemento
+    //Relacion de muchos usuarios a un tipo de documentos
     @ManyToOne(targetEntity = DocumentType.class, fetch = FetchType.LAZY)
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     @JoinColumn(name = "user_doctype")
@@ -63,13 +65,14 @@ public class User implements Serializable {
 //    @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Team> teams;
 
-    //Relacion de muchos usuarios a muchos equipos
-    @ManyToMany(fetch = FetchType.LAZY)
+    //Relacion de muchos usuarios a muchos roles
+    @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
     private List<Role> roles;
+
 
 //    //Relacion de muchos usuarios a muchos equipos
 //    @ManyToMany(targetEntity = Team.class, fetch = FetchType.LAZY)

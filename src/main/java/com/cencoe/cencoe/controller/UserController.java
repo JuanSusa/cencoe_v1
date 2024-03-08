@@ -15,6 +15,7 @@ public class UserController {
 
     private final IUserService userService;
 
+
     @Autowired
     public UserController(IUserService userService) {
 
@@ -39,7 +40,7 @@ public class UserController {
     @PostMapping("/usuario")
     public ResponseEntity<Object> saveCampaign(@RequestBody User user) {
 
-        MensajeResponse responseSaveUser = userService.saveUser(user);
+        MensajeResponse responseSaveUser = userService .saveUser(user);
         return new ResponseEntity<>(responseSaveUser, HttpStatus.OK);
     }
 

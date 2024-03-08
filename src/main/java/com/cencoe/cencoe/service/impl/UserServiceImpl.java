@@ -7,14 +7,15 @@ import com.cencoe.cencoe.util.MensajeResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.*;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
+
 import java.util.Optional;
 
 @Slf4j
@@ -22,12 +23,11 @@ import java.util.Optional;
 public class UserServiceImpl implements IUserService {
 
     private final IUserRepository userRepository;
-
     @Autowired
     public UserServiceImpl(IUserRepository userRepository) {
-
         this.userRepository = userRepository;
     }
+
 
     @Override
     @Transactional(readOnly = true)
@@ -114,6 +114,8 @@ public class UserServiceImpl implements IUserService {
         User userToSave;
         try {
             userToSave = userRepository.save(user);
+
+
         } catch (DataAccessException dtEx) {
             return MensajeResponse.buildMensajeGeneral(
                     HttpStatus.BAD_REQUEST,
@@ -203,4 +205,22 @@ public class UserServiceImpl implements IUserService {
                 null);
     }
 
+//    @Override
+//    public MensajeResponse authenticate() {
+//        try {
+//            Optional<User> userAuth = userRepository.findByUserNumDoc(userLoginRequest.getNumDoc());
+//            User user = userAuth.orElseThrow(() -> new UsernameNotFoundException("Usuario no encontrado"));
+//            if (passwordEncoder.matches(userLoginRequest.getPassword(), user.getUserPassword())) {
+//
+//                return MensajeResponse.buildMensajeGeneral(HttpStatus.OK, "Inicio de Sesión Exitoso", true, null);
+//            } else {
+//                return MensajeResponse.buildMensajeGeneral(HttpStatus.UNAUTHORIZED, "Usuario o contraseña incorrectos", false, null);
+//            }
+//        } catch (UsernameNotFoundException e) {
+//            return MensajeResponse.buildMensajeGeneral(HttpStatus.NOT_FOUND, "Usuario no encontrado", false, null);
+//        } catch (Exception e) {
+//            return MensajeResponse.buildMensajeGeneral(HttpStatus.INTERNAL_SERVER_ERROR, "Error al autenticar usuario", false, null);
+//        }
+//    }
+//
 }
