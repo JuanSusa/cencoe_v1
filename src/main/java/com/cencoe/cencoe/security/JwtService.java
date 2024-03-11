@@ -1,11 +1,13 @@
-package security;
+package com.cencoe.cencoe.security;
 
+import com.cencoe.cencoe.models.entity.User;
+import com.cencoe.cencoe.service.impl.AuthServiceImpl;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import javax.crypto.SecretKey;
@@ -13,29 +15,32 @@ import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 import java.util.function.Function;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Service
 public class JwtService {
-    public static final String JWT_FIRMA = "Ip6akP8N3x7QDPK7Tq0aK3w3dSzYg8Th";
+    public static final String JWT_FIRMA = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEArzC3g7mJq7l5DWDKE";
     public static final long JWT_EXPIRATION_TOKEN = 360000;
+    private static final Logger logger = LoggerFactory.getLogger(JwtService.class);
 
 
-    public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(), userDetails); // El HashMap vacío se utilizará para almacenar cualquier reclamo adicional que desees agregar al token JWT.
-
-    }
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
+    public String generateToken(Authentication authentication){
+        logger.info("Generando token para autenticación {}", authentication);
+        UserDetails userDetails = (UserDetails) authentication.getPrincipal();
         Date now = new Date(System.currentTimeMillis());
         Date expirationDate = new Date(now.getTime() + JWT_EXPIRATION_TOKEN);
         SecretKey secretKey = setSignIngKey();
-        return Jwts.builder()
+        String token= Jwts.builder()
                 .subject(userDetails.getUsername())
                 .issuedAt(now)
                 .expiration(expirationDate)
-                .claims(extraClaims)
                 .signWith(secretKey)
                 .compact();
+        logger.info("Token generado: {}", token);
+        return token;
     }
 
 
@@ -74,4 +79,6 @@ public class JwtService {
     public Date getExpired(String token) {
         return getClaim(token, Claims::getExpiration);
     }
+
+
 }

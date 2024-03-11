@@ -66,13 +66,14 @@ public class User implements Serializable {
     private List<Team> teams;
 
     //Relacion de muchos usuarios a muchos roles
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     @JsonIgnore
     @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"})
     private List<Role> roles;
+
 
 
 //    //Relacion de muchos usuarios a muchos equipos

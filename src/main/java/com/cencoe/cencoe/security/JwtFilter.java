@@ -1,4 +1,4 @@
-package security;
+package com.cencoe.cencoe.security;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -10,18 +10,22 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
 @Component
-@RequiredArgsConstructor
 public class JwtFilter extends OncePerRequestFilter { //OncePerRequestFilter, una clase que garantiza que este filtro se ejecute solo una vez por solicitud HTTP.
-    private final UserDetailsService userDetailsService;
-
+    private final CustomUserDetailsService customUserDetailsService;
     private final JwtService jwtService;
+
+
+    public JwtFilter(CustomUserDetailsService customUserDetailsService, JwtService jwtService) {
+        this.customUserDetailsService = customUserDetailsService;
+        this.jwtService = jwtService;
+    }
+
     @Override
     protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response,@NonNull FilterChain filterChain) throws ServletException, IOException {
 
@@ -36,12 +40,12 @@ public class JwtFilter extends OncePerRequestFilter { //OncePerRequestFilter, un
        jwt = authHeader.substring(7);
        userNumDoc= jwtService.getUserName(jwt); //ya que tenemos el jwt lo pasamos a un servicio que pueda decodificar el token y extraer informacion como el numero de documento
        if(userNumDoc != null && SecurityContextHolder.getContext().getAuthentication() == null){
-           UserDetails userDetails = this.userDetailsService.loadUserByUsername(userNumDoc);
+           UserDetails userDetails = this.customUserDetailsService.loadUserByUsername(userNumDoc);
            if(jwtService.validateToken(jwt, userDetails)){
                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(
                        userDetails,
-                       null,
-                       userDetails.getAuthorities()
+                       null
+
                );
                authenticationToken.setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                SecurityContextHolder.getContext().setAuthentication(authenticationToken);

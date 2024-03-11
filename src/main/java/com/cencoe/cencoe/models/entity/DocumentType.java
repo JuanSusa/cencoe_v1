@@ -32,12 +32,10 @@ public class DocumentType implements Serializable {
     @JsonBackReference
     private List<User> users;
 
-<<<<<<< HEAD
-=======
+
     //relacion de un tipo de documento a muchos clientes
     @OneToMany(targetEntity = Customer.class, fetch = FetchType.LAZY, mappedBy = "customerDocType")
     @JsonIgnore
     private List<Customer> customers;
->>>>>>> develop
 
 }

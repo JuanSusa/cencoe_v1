@@ -5,7 +5,10 @@ import lombok.*;
 
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserLoginRequest {
-    private String numDoc;
-    private String password;
+    private String userNumDoc;
+    private String userPassword;
 }

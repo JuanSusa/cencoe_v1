@@ -23,9 +23,11 @@ import java.util.Optional;
 public class UserServiceImpl implements IUserService {
 
     private final IUserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
     @Autowired
-    public UserServiceImpl(IUserRepository userRepository) {
+    public UserServiceImpl(IUserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -110,6 +112,8 @@ public class UserServiceImpl implements IUserService {
                     false,
                     null);
         }
+        String encryptedPassword = passwordEncoder.encode(user.getUserPassword());
+        user.setUserPassword(encryptedPassword);
 
         User userToSave;
         try {

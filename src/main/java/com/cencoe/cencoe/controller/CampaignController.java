@@ -8,11 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-<<<<<<< HEAD
 @CrossOrigin(origins = "http://localhost:4200")
-=======
-@CrossOrigin(origins = {"http://localhost:4200"})
->>>>>>> develop
 @RestController
 @RequestMapping("/api/v2/cencoe")
 public class CampaignController {

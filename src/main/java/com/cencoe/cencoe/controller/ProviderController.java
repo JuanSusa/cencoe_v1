@@ -9,17 +9,11 @@ package com.cencoe.cencoe.controller;
     import org.springframework.http.ResponseEntity;
     import org.springframework.web.bind.annotation.*;
 
-<<<<<<< HEAD
-    @CrossOrigin(origins = "http://localhost:4200")
-    @RestController
-    @RequestMapping("/api/v2/cencoe")
-    public class ProviderController {
-=======
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api/v2/cencoe")
 public class ProviderController {
->>>>>>> develop
+
 
         private final IProviderService providerService;
 
@@ -27,18 +21,18 @@ public class ProviderController {
 
             this.providerService = providerService;
         }
-        @GetMapping("/proveedores")
-        public ResponseEntity<?> listProviders(@RequestParam(defaultValue = "0") int page,
-                                               @RequestParam(defaultValue = "3") int size) {
-            try {
-                Page<Provider> providersPage = providerService.listProvidersPageable(PageRequest.of(page, size));
-                return ResponseEntity.ok().body(providersPage);
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al obtener los proveedores paginados");
-            }
-        }
+//        @GetMapping("/proveedores")
+//        public ResponseEntity<?> listProviders(@RequestParam(defaultValue = "0") int page,
+//                                               @RequestParam(defaultValue = "3") int size) {
+//            try {
+//                Page<Provider> providersPage = providerService.listProvidersPageable(PageRequest.of(page, size));
+//                return ResponseEntity.ok().body(providersPage);
+//            } catch (Exception e) {
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al obtener los proveedores paginados");
+//            }
+//        }
 
-<<<<<<< HEAD
+
        //@GetMapping("/proveedores")
        // public ResponseEntity<Object> listProviders() {
        //   MensajeResponse responseListProviders = providerService.listProvider();
@@ -47,7 +41,11 @@ public class ProviderController {
 
         @GetMapping("proveedor/{id}")
         public ResponseEntity<Object> findProviderById(@PathVariable Long id) {
-=======
+
+                MensajeResponse responseFindProvider = providerService.findProvider(id);
+                return new ResponseEntity<>(responseFindProvider, HttpStatus.OK);
+            }
+
     @GetMapping("/proveedores")
     public ResponseEntity<Object> listProviders(@RequestParam(defaultValue = "0") int page,
                                                 @RequestParam(defaultValue = "5") int size) {
@@ -55,11 +53,7 @@ public class ProviderController {
         MensajeResponse responseListProviders = providerService.listProvider(page, size);
         return new ResponseEntity<>(responseListProviders, HttpStatus.OK);
     }
->>>>>>> develop
 
-            MensajeResponse responseFindProvider = providerService.findProvider(id);
-            return new ResponseEntity<>(responseFindProvider, HttpStatus.OK);
-        }
 
         @PostMapping("/proveedor")
         public ResponseEntity<?> saveProvider(@RequestBody Provider provider) {

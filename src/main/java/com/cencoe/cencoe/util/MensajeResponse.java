@@ -4,6 +4,7 @@ import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 
 import java.io.Serializable;
 
@@ -23,6 +24,7 @@ public class MensajeResponse implements Serializable {
                 .data(data)
                 .success(success).build();
     }
+
 
 
 }
