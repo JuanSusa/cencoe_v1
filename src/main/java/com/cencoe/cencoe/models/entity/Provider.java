@@ -30,6 +30,9 @@ public class Provider implements Serializable {
     @Column(name = "provider_address")
     private String providerAddress;
 
+    @Column(name = "provider_numdoc", unique = true)
+    private String providerNumDoc;
+
   //  @Column(name = "provider_state")
   //private Boolean providerState;
 
