@@ -9,13 +9,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
+import org.springframework.web.bind.annotation.*;
+@CrossOrigin(origins = "http://localhost:4200")
 @RestController
 @RequestMapping("/api/v2/cencoe")
+
 public class AuthController {
     private final IAuthService authService;
     @Autowired
@@ -28,7 +26,6 @@ public class AuthController {
     public ResponseEntity<MensajeResponse> login(@RequestBody UserLoginRequest loginRequest) {
         MensajeResponse mensajeResponse = authService.login(loginRequest);
         return new ResponseEntity<>(mensajeResponse, HttpStatusCode.valueOf(mensajeResponse.getCode()));
-
     }
     }
 

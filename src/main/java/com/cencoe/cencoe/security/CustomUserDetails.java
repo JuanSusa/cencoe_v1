@@ -32,6 +32,13 @@ public class CustomUserDetails extends User implements UserDetails {
     .collect: pone los roles transformados en una lista
      */
 
+    public String getFirstName() {
+        return user.getUserName();
+    }
+
+    public String getLastName() {
+        return user.getUserLastName();
+    }
     @Override
     public String getPassword() {
         return user.getUserPassword();
